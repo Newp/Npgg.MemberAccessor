@@ -1,6 +1,9 @@
 ﻿using Npgg;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 
 namespace Example
 {
@@ -19,11 +22,25 @@ namespace Example
             var type = typeof(Sample);
             var assignerPool = new MemberAssignerPool();
 
-            int count = 10000;
 
-            Console.WriteLine($"without cache { Check(count, () => MemberAssigner.GetAssigners(type)) } ms elapsed");
+            Console.WriteLine("cache performance test");
+            Console.WriteLine($"without cache { Check(10000, () => MemberAssigner.GetAssigners(type)) } ms elapsed");
+            Console.WriteLine($"with cache { Check(10000, () => assignerPool.GetAssigners(type)) } ms elapsed");
 
-            Console.WriteLine($"with cache { Check(count, () => assignerPool.GetAssigners(type)) } ms elapsed");
+            Console.WriteLine("benchmark with reflection");
+
+            var member = type.GetMember(nameof(Sample.Name)).First() as PropertyInfo;
+
+
+            var item = new Sample();
+            string sampleName = "test";
+            Console.WriteLine($"without assigner { Check(500000, () => member.SetValue(item, sampleName)) } ms elapsed");
+
+            var assigner = assignerPool.GetAssigners(type)[nameof(Sample.Name)];
+            Console.WriteLine($"with assigner { Check(500000, () => assigner.SetValue(item, sampleName)) } ms elapsed");
+
+
+
         }
 
         static long Check(int count, Action action)
