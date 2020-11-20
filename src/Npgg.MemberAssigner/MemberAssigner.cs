@@ -2,13 +2,39 @@
 //lisence : The Code Project Open License(CPOL)
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Npgg
 {
+
     public class MemberAssigner
     {
+
+        public static Dictionary<string, MemberAssigner> GetAssigners(Type type) 
+            => GetVariables(type).ToDictionary(
+                        memberInfo => memberInfo.Name,
+                        memberInfo => new MemberAssigner(memberInfo));
+
+        public static Dictionary<string, MemberAssigner> GetAssigners<T>() => GetAssigners(typeof(T));
+
+
+        public static List<MemberInfo> GetVariables( Type type)
+        {
+            List<MemberInfo> result = new List<MemberInfo>();
+            foreach (var memberInfo in type.GetMembers())
+            {
+                if (memberInfo.MemberType != MemberTypes.Field && memberInfo.MemberType != MemberTypes.Property)
+                    continue;
+
+                result.Add(memberInfo);
+            }
+
+            return result;
+        }
+
 
         private readonly static MethodInfo sm_valueAssignerMethod
             = typeof(MemberAssigner).GetMethod("ValueAssigner", BindingFlags.Static | BindingFlags.NonPublic);
@@ -34,6 +60,8 @@ namespace Npgg
         public readonly Type DeclaringType;
         public readonly Type ValueType;
 
+        public readonly bool IsReadonly;
+
         public MemberAssigner(MemberInfo memberInfo)
         {
             this.DeclaringType = memberInfo.DeclaringType;
@@ -55,7 +83,13 @@ namespace Npgg
                 var assignmentMethod = pi.GetSetMethod(true);
 
                 getMemberExpression = _ex => exMember = Expression.Property(_ex, pi);
-                makeCallExpression = (_obj, _val) => Expression.Call(_obj, assignmentMethod, _val);
+
+                makeCallExpression = null;
+
+                if(assignmentMethod !=null)
+                    makeCallExpression = (_obj, _val) => Expression.Call(_obj, assignmentMethod, _val);
+                else
+                    makeCallExpression = null;
             }
             else
             {
@@ -66,16 +100,19 @@ namespace Npgg
             Init(getMemberExpression
                     , makeCallExpression
                     , out this.getter
-                    , out this.setter
+                    , ref this.setter
                 );
 
+            this.IsReadonly = setter == null;
         }
+
+
 
         private void Init(
             Func<Expression, MemberExpression> getMember,
             Func<Expression, Expression, MethodCallExpression> makeCallExpression,
             out Func<object, object> getter,
-            out Action<object, object> setter)
+            ref Action<object, object> setter)
         {
             var exObjParam = Expression.Parameter(typeof(object), "theObject");
             var exValParam = Expression.Parameter(typeof(object), "theProperty");
@@ -88,8 +125,11 @@ namespace Npgg
             Expression getterMember = ValueType.IsValueType ? Expression.Convert(exMember, typeof(object)) : exMember;
             getter = Expression.Lambda<Func<object, object>>(getterMember, exObjParam).Compile();
 
-            Expression exAssignment = makeCallExpression(exObjConverted, exValConverted);
-            setter = Expression.Lambda<Action<object, object>>(exAssignment, exObjParam, exValParam).Compile();
+            if (makeCallExpression != null)
+            {
+                Expression exAssignment = makeCallExpression(exObjConverted, exValConverted);
+                setter = Expression.Lambda<Action<object, object>>(exAssignment, exObjParam, exValParam).Compile();
+            }
         }
     }
 
