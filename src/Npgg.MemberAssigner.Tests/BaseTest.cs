@@ -8,15 +8,14 @@ namespace Npgg.MemberAssignerTests
     public class Sample
     {
         public string Name { get; set; }
-        public int Age { get; set; }
+        public int Age { get; private set; }
     }
 
     public class BaseTest : BaseFixture<Sample>
     {
         Sample item = new Sample()
         {
-            Name = "test name",
-            Age = 3939
+            Name = "test name"
         };
 
         [Fact]
@@ -42,6 +41,23 @@ namespace Npgg.MemberAssignerTests
             assigner.SetValue(item, newValue);
 
             Assert.Equal(newValue, item.Name);
+        }
+
+
+
+        [Fact]
+        public void PrivateSetTest()
+        {
+            var assigner = this.GetAssigner(nameof(Sample.Age));
+
+            Assert.True(assigner.CheckType(typeof(int)));
+
+            Assert.Equal(default, item.Age);
+
+            int newValue = 3939;
+            assigner.SetValue(item, newValue);
+
+            Assert.Equal(newValue, item.Age);
         }
     }
 }
