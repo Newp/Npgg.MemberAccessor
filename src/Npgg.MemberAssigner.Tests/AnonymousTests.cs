@@ -27,7 +27,6 @@ namespace Npgg.MemberAssignerTests
                 MemberAssigner.GetAssigners(item.GetType());
             }
 
-            Assert.Single(MemberAssigner.Cached);
         }
     }
 }

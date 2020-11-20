@@ -1,12 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Npgg
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            
-        }
-    }
+
 }
