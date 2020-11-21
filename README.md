@@ -9,6 +9,8 @@
 
 
 # Reflection 과 성능비교
+
+테스트 횟수 : 100000000번
 set value via System.Reflection  1810 ms elapsed
 set value via Npgg.MemberAssigner 76 ms elapsed
 
@@ -45,7 +47,11 @@ void SampleAssignByReflection(object instance, MemberInfo memberInfo, string val
 한번 초기화했던 타입에 대해서 자동으로 캐싱합니다. 
 
 ### Cache 사용여부에 따른 성능 비교 
-without cache 6045 ms elapsed, with cache 1 ms elapsed
+테스트 횟수 : 5000번
+without cache 6045 ms elapsed
+with cache 1 ms elapsed
+
+캐싱없이 동작시키기에는 리플렉션으로 관련정보들을 초기화하는데에 꽤 긴 시간이 걸립니다.
 
 
 
