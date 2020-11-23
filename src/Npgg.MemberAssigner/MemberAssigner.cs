@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Npgg.Reflection
+namespace Npgg
 {
 
     public class MemberAssigner

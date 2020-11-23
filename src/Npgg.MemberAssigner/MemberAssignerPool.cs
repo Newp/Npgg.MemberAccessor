@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Npgg.Reflection
+namespace Npgg
 {
     public class MemberAssignerPool
     {
