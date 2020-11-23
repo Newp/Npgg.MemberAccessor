@@ -22,23 +22,29 @@ namespace Example
 
             var type = typeof(Sample);
             var assignerPool = new MemberAccessorPool();
+            var member = type.GetMember(nameof(Sample.Name)).First() as PropertyInfo;
+            var item = new Sample();
 
+            Console.WriteLine("cache single member accessor performance test");
+            Console.WriteLine($"without cache { Check(10000, () => MemberAccessor.GetAccessor<Sample>(sample => sample.Name)) } ms elapsed");
+            Console.WriteLine($"with cache { Check(10000, () => assignerPool.GetAccessor<Sample>(sample => sample.Name)) } ms elapsed");
 
-            Console.WriteLine("cache performance test");
+            Console.WriteLine("cache all member accessor performance test");
             Console.WriteLine($"without cache { Check(10000, () => MemberAccessor.GetAssigners(type)) } ms elapsed");
             Console.WriteLine($"with cache { Check(10000, () => assignerPool.GetAccessors(type)) } ms elapsed");
 
+
             Console.WriteLine("benchmark with reflection");
 
-            var member = type.GetMember(nameof(Sample.Name)).First() as PropertyInfo;
-
-
-            var item = new Sample();
             string sampleName = "test";
             Console.WriteLine($"without assigner { Check(500000, () => member.SetValue(item, sampleName)) } ms elapsed");
 
             var assigner = assignerPool.GetAccessors(type)[nameof(Sample.Name)];
             Console.WriteLine($"with assigner { Check(500000, () => assigner.SetValue(item, sampleName)) } ms elapsed");
+
+
+
+
 
 
 
