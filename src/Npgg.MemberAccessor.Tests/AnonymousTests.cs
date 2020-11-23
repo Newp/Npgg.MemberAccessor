@@ -12,11 +12,11 @@ namespace Npgg.MemberAccessorTests
         public void AnonymouseReadonlyTest()
         {
             var item = new { name = "anon" };
-            var assigner = MemberAccessor.GetAssigners(item.GetType()).Values.First(); ;
+            var accessor = MemberAccessor.GetAccessors(item.GetType()).Values.First(); ;
 
-            Assert.True(assigner.IsReadonly);
+            Assert.True(accessor.IsReadonly);
 
-            Assert.Equal(assigner.GetValue<string>(item), item.name);
+            Assert.Equal(accessor.GetValue<string>(item), item.name);
         }
 
         [Fact]
@@ -25,7 +25,7 @@ namespace Npgg.MemberAccessorTests
             var item = new { name = "anon" };
             for (int i =0;i<100;i++)
             {
-                MemberAccessor.GetAssigners(item.GetType());
+                MemberAccessor.GetAccessors(item.GetType());
             }
 
         }

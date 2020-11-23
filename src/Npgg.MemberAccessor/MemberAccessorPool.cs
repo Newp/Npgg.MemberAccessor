@@ -24,7 +24,7 @@ namespace Npgg.Reflection
         {
             if (Cached.TryGetValue(type, out var result) == false)
             {
-                result = MemberAccessor.GetAssigners(type);
+                result = MemberAccessor.GetAccessors(type);
                 Cached[type] = result;
             }
             return result;

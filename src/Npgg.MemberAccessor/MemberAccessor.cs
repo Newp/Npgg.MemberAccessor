@@ -12,12 +12,12 @@ namespace Npgg.Reflection
     public partial class MemberAccessor
     {
 
-        public static Dictionary<string, MemberAccessor> GetAssigners(Type type)
+        public static Dictionary<string, MemberAccessor> GetAccessors(Type type)
             => GetVariables(type).ToDictionary(
                         memberInfo => memberInfo.Name,
                         memberInfo => new MemberAccessor(memberInfo));
 
-        public static Dictionary<string, MemberAccessor> GetAssigners<T>() => GetAssigners(typeof(T));
+        public static Dictionary<string, MemberAccessor> GetAccessors<T>() => GetAccessors(typeof(T));
 
         public static MemberAccessor GetAccessor<T>(Expression<Func<T, object>> expression)
         {

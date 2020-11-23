@@ -6,7 +6,7 @@ namespace Npgg.MemberAccessorTests
     public class BaseFixture<T>
     {
 
-        protected MemberAccessor GetAssigner(string name)
+        protected MemberAccessor GetAccessor(string name)
         {
             var memberType = typeof(T).GetMember(name).First();
             return new MemberAccessor(memberType);

@@ -25,24 +25,24 @@ namespace Npgg.MemberAccessorTests
         [Fact]
         public void GetTest()
         {
-            var assigner = this.GetAssigner(nameof(Sample.Name));
+            var accessor = this.GetAccessor(nameof(Sample.Name));
 
-            Assert.True(assigner.CheckType(typeof(string)));
-            Assert.Equal(item.Name, assigner.GetValue<string>(item));
+            Assert.True(accessor.CheckType(typeof(string)));
+            Assert.Equal(item.Name, accessor.GetValue<string>(item));
         }
 
 
         [Fact]
         public void SetTest()
         {
-            var assigner = this.GetAssigner(nameof(Sample.Name));
+            var accessor = this.GetAccessor(nameof(Sample.Name));
 
-            Assert.True(assigner.CheckType(typeof(string)));
-            Assert.Equal(item.Name, assigner.GetValue<string>(item));
+            Assert.True(accessor.CheckType(typeof(string)));
+            Assert.Equal(item.Name, accessor.GetValue<string>(item));
 
             string newValue = "chagned name";
 
-            assigner.SetValue(item, newValue);
+            accessor.SetValue(item, newValue);
 
             Assert.NotEqual(newValue, item.Name);
             Assert.Equal(initstring, item.Name);
