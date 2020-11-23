@@ -1,5 +1,7 @@
+using Npgg.Reflection;
 using System;
 using System.Linq;
+using System.Reflection;
 using Xunit;
 
 namespace Npgg.MemberAccessorTests
@@ -25,6 +27,20 @@ namespace Npgg.MemberAccessorTests
 
             Assert.True(assigner.CheckType(typeof(string)));
             Assert.Equal(item.Name, assigner.GetValue<string>(item));
+        }
+
+
+
+        [Fact]
+        public void GetAccessorViaExpression()
+        {
+            var accessor = MemberAccessor.GetAccessor<Sample>(sample => sample.Name);
+
+            var member = typeof(Sample).GetMember(nameof(Sample.Name)).First() as PropertyInfo;
+
+            Assert.Equal(member.Name, accessor.Name);
+            Assert.Equal(typeof(Sample), accessor.DeclaringType);
+            Assert.Equal(member.PropertyType, accessor.ValueType);
         }
 
 

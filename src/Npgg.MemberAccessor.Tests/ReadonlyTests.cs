@@ -1,3 +1,4 @@
+using Npgg.Reflection;
 using System;
 using System.Linq;
 using Xunit;
@@ -29,7 +30,6 @@ namespace Npgg.MemberAccessorTests
             Assert.True(assigner.CheckType(typeof(string)));
             Assert.Equal(item.Name, assigner.GetValue<string>(item));
         }
-
 
 
         [Fact]

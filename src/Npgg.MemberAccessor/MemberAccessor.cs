@@ -9,19 +9,28 @@ using System.Reflection;
 
 namespace Npgg.Reflection
 {
-
-    public class MemberAccessor
+    public partial class MemberAccessor
     {
 
-        public static Dictionary<string, MemberAccessor> GetAssigners(Type type) 
+        public static Dictionary<string, MemberAccessor> GetAssigners(Type type)
             => GetVariables(type).ToDictionary(
                         memberInfo => memberInfo.Name,
                         memberInfo => new MemberAccessor(memberInfo));
 
         public static Dictionary<string, MemberAccessor> GetAssigners<T>() => GetAssigners(typeof(T));
 
+        public static MemberAccessor GetAccessor<T>(Expression<Func<T, object>> expression)
+        {
+            var memberExpression = expression.Body as MemberExpression;
+            if (memberExpression == null)
+            {
+                throw new Exception("Get Accessor Expression must be Member Expression. (ex: member=>member.Id");
+            }
 
-        public static List<MemberInfo> GetVariables( Type type)
+            return new MemberAccessor(memberExpression.Member);
+        }
+
+        public static List<MemberInfo> GetVariables(Type type)
         {
             List<MemberInfo> result = new List<MemberInfo>();
             foreach (var memberInfo in type.GetMembers())
@@ -34,6 +43,11 @@ namespace Npgg.Reflection
 
             return result;
         }
+
+    }
+
+    public partial class MemberAccessor
+    {
 
 
         private readonly static MethodInfo sm_valueAssignerMethod
@@ -61,9 +75,11 @@ namespace Npgg.Reflection
         public readonly Type ValueType;
 
         public readonly bool IsReadonly;
+        public readonly string Name;
 
         public MemberAccessor(MemberInfo memberInfo)
         {
+            this.Name = memberInfo.Name;
             this.DeclaringType = memberInfo.DeclaringType;
             MemberExpression exMember = null;
             Func<Expression, MemberExpression> getMemberExpression;

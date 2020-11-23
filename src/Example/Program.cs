@@ -26,7 +26,7 @@ namespace Example
 
             Console.WriteLine("cache performance test");
             Console.WriteLine($"without cache { Check(10000, () => MemberAccessor.GetAssigners(type)) } ms elapsed");
-            Console.WriteLine($"with cache { Check(10000, () => assignerPool.GetAssigners(type)) } ms elapsed");
+            Console.WriteLine($"with cache { Check(10000, () => assignerPool.GetAccessors(type)) } ms elapsed");
 
             Console.WriteLine("benchmark with reflection");
 
@@ -37,7 +37,7 @@ namespace Example
             string sampleName = "test";
             Console.WriteLine($"without assigner { Check(500000, () => member.SetValue(item, sampleName)) } ms elapsed");
 
-            var assigner = assignerPool.GetAssigners(type)[nameof(Sample.Name)];
+            var assigner = assignerPool.GetAccessors(type)[nameof(Sample.Name)];
             Console.WriteLine($"with assigner { Check(500000, () => assigner.SetValue(item, sampleName)) } ms elapsed");
 
 

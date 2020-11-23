@@ -10,7 +10,7 @@ namespace Npgg.Reflection
     {
         public Dictionary<Type, Dictionary<string, MemberAccessor>> Cached = new Dictionary<Type, Dictionary<string, MemberAccessor>>();
 
-        public Dictionary<string, MemberAccessor> GetAssigners(Type type)
+        public Dictionary<string, MemberAccessor> GetAccessors(Type type)
         {
             if (Cached.TryGetValue(type, out var result) == false)
             {
@@ -21,7 +21,9 @@ namespace Npgg.Reflection
             return result;
         }
 
-        public Dictionary<string, MemberAccessor> GetAssigners<T>() => GetAssigners(typeof(T));
+        public Dictionary<string, MemberAccessor> GetAccessors<T>() => GetAccessors(typeof(T));
+
+        
     }
 
 
