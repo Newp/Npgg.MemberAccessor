@@ -42,12 +42,6 @@ namespace Example
             var assigner = assignerPool.GetAccessors(type)[nameof(Sample.Name)];
             Console.WriteLine($"with assigner { Check(500000, () => assigner.SetValue(item, sampleName)) } ms elapsed");
 
-
-
-
-
-
-
         }
 
         static long Check(int count, Action action)

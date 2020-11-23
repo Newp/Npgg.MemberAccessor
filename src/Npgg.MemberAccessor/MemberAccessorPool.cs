@@ -7,6 +7,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
+/*
+ * 
+ * 캐싱된 데이터는 일부러 Type별/Member별로 나눈것은 별도로 캐싱한다.
+ * 점유하는 메모리가 크지 않으며, 한 타입에 대해 항상 같은 결과를 갖는만큼 atomic 한 캐싱은 필요하지 않다.
+*/
 namespace Npgg.Reflection
 {
     public class MemberAccessorPool
@@ -33,7 +38,7 @@ namespace Npgg.Reflection
             if (CachedMemberAccessor.TryGetValue(key, out var result) == false)
             {
                 result = new MemberAccessor(memberInfo);
-                CachedMemberAccessor.Add(key, result);
+                CachedMemberAccessor[key]= result;
             }
 
             return result;
