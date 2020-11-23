@@ -21,11 +21,11 @@ namespace Example
         {
 
             var type = typeof(Sample);
-            var assignerPool = new MemberAssignerPool();
+            var assignerPool = new MemberAccessorPool();
 
 
             Console.WriteLine("cache performance test");
-            Console.WriteLine($"without cache { Check(10000, () => MemberAssigner.GetAssigners(type)) } ms elapsed");
+            Console.WriteLine($"without cache { Check(10000, () => MemberAccessor.GetAssigners(type)) } ms elapsed");
             Console.WriteLine($"with cache { Check(10000, () => assignerPool.GetAssigners(type)) } ms elapsed");
 
             Console.WriteLine("benchmark with reflection");

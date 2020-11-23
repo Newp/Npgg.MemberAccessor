@@ -2,11 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Description>reflection 으로 type의 member들에 대해 get/set 합니다.</Description>
+    <Description>type reflection 으로 member들에 get/set 합니다.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/Newp/Npgg.MemberAssigner</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Newp/Npgg.MemberAssigner</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

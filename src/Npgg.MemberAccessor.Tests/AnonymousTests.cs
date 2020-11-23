@@ -3,7 +3,7 @@ using System.Linq;
 using Xunit;
 using Npgg.Reflection;
 
-namespace Npgg.MemberAssignerTests
+namespace Npgg.MemberAccessorTests
 {
     public class AnonymousTests
     {
@@ -12,7 +12,7 @@ namespace Npgg.MemberAssignerTests
         public void AnonymouseReadonlyTest()
         {
             var item = new { name = "anon" };
-            var assigner = MemberAssigner.GetAssigners(item.GetType()).Values.First(); ;
+            var assigner = MemberAccessor.GetAssigners(item.GetType()).Values.First(); ;
 
             Assert.True(assigner.IsReadonly);
 
@@ -25,7 +25,7 @@ namespace Npgg.MemberAssignerTests
             var item = new { name = "anon" };
             for (int i =0;i<100;i++)
             {
-                MemberAssigner.GetAssigners(item.GetType());
+                MemberAccessor.GetAssigners(item.GetType());
             }
 
         }

@@ -6,22 +6,22 @@ using System.Collections.Generic;
 
 namespace Npgg.Reflection
 {
-    public class MemberAssignerPool
+    public class MemberAccessorPool
     {
-        public Dictionary<Type, Dictionary<string, MemberAssigner>> Cached = new Dictionary<Type, Dictionary<string, MemberAssigner>>();
+        public Dictionary<Type, Dictionary<string, MemberAccessor>> Cached = new Dictionary<Type, Dictionary<string, MemberAccessor>>();
 
-        public Dictionary<string, MemberAssigner> GetAssigners(Type type)
+        public Dictionary<string, MemberAccessor> GetAssigners(Type type)
         {
             if (Cached.TryGetValue(type, out var result) == false)
             {
-                result = MemberAssigner.GetAssigners(type);
+                result = MemberAccessor.GetAssigners(type);
 
                 Cached[type] = result;
             }
             return result;
         }
 
-        public Dictionary<string, MemberAssigner> GetAssigners<T>() => GetAssigners(typeof(T));
+        public Dictionary<string, MemberAccessor> GetAssigners<T>() => GetAssigners(typeof(T));
     }
 
 

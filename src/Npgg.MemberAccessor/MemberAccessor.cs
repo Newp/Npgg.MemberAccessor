@@ -10,15 +10,15 @@ using System.Reflection;
 namespace Npgg.Reflection
 {
 
-    public class MemberAssigner
+    public class MemberAccessor
     {
 
-        public static Dictionary<string, MemberAssigner> GetAssigners(Type type) 
+        public static Dictionary<string, MemberAccessor> GetAssigners(Type type) 
             => GetVariables(type).ToDictionary(
                         memberInfo => memberInfo.Name,
-                        memberInfo => new MemberAssigner(memberInfo));
+                        memberInfo => new MemberAccessor(memberInfo));
 
-        public static Dictionary<string, MemberAssigner> GetAssigners<T>() => GetAssigners(typeof(T));
+        public static Dictionary<string, MemberAccessor> GetAssigners<T>() => GetAssigners(typeof(T));
 
 
         public static List<MemberInfo> GetVariables( Type type)
@@ -37,7 +37,7 @@ namespace Npgg.Reflection
 
 
         private readonly static MethodInfo sm_valueAssignerMethod
-            = typeof(MemberAssigner).GetMethod("ValueAssigner", BindingFlags.Static | BindingFlags.NonPublic);
+            = typeof(MemberAccessor).GetMethod("ValueAssigner", BindingFlags.Static | BindingFlags.NonPublic);
 
         private static void ValueAssigner<T>(out T dest, T src) => dest = src;
 
@@ -62,7 +62,7 @@ namespace Npgg.Reflection
 
         public readonly bool IsReadonly;
 
-        public MemberAssigner(MemberInfo memberInfo)
+        public MemberAccessor(MemberInfo memberInfo)
         {
             this.DeclaringType = memberInfo.DeclaringType;
             MemberExpression exMember = null;

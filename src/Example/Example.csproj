@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Npgg.MemberAssigner\Npgg.MemberAssigner.csproj" />
+    <ProjectReference Include="..\Npgg.MemberAccessor\Npgg.MemberAccessor.csproj" />
   </ItemGroup>
 
 </Project>

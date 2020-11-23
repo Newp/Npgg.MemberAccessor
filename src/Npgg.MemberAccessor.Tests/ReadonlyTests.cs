@@ -2,21 +2,24 @@ using System;
 using System.Linq;
 using Xunit;
 
-namespace Npgg.MemberAssignerTests
+namespace Npgg.MemberAccessorTests
 {
 
-    public class Sample
+    public class ReadonlySample
     {
-        public string Name { get; set; }
-        public int Age { get; private set; }
+        public readonly string Name;
+
+        public ReadonlySample(string name)
+        {
+            Name = name;
+        }
     }
 
-    public class BaseTest : BaseFixture<Sample>
+    public class ReadonlyTests : BaseFixture<ReadonlySample>
     {
-        Sample item = new Sample()
-        {
-            Name = "test name"
-        };
+        const string initstring = "aabbccc";
+        ReadonlySample item = new ReadonlySample(initstring);
+
 
         [Fact]
         public void GetTest()
@@ -26,6 +29,7 @@ namespace Npgg.MemberAssignerTests
             Assert.True(assigner.CheckType(typeof(string)));
             Assert.Equal(item.Name, assigner.GetValue<string>(item));
         }
+
 
 
         [Fact]
@@ -40,24 +44,9 @@ namespace Npgg.MemberAssignerTests
 
             assigner.SetValue(item, newValue);
 
-            Assert.Equal(newValue, item.Name);
+            Assert.NotEqual(newValue, item.Name);
+            Assert.Equal(initstring, item.Name);
         }
 
-
-
-        [Fact]
-        public void PrivateSetTest()
-        {
-            var assigner = this.GetAssigner(nameof(Sample.Age));
-
-            Assert.True(assigner.CheckType(typeof(int)));
-
-            Assert.Equal(default, item.Age);
-
-            int newValue = 3939;
-            assigner.SetValue(item, newValue);
-
-            Assert.Equal(newValue, item.Age);
-        }
     }
 }
