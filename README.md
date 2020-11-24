@@ -1,4 +1,4 @@
-# Npgg.MemberAssigner
+# Npgg.MemberAccessor
 
 
 # 특징
@@ -42,9 +42,10 @@ void SampleAssignByReflection(object instance, MemberInfo memberInfo, string val
 }
 
 ```
-# MemberAssignerPool
+# MemberAccessorPool
 
 한번 초기화했던 타입에 대해서 자동으로 캐싱합니다. 
+모든 Member Accessor를 가져오는 동작과, 특정 MemberAccessor만 가져오는 행동은 별도의 메모리에 캐싱됩니다.
 
 ### Cache 사용여부에 따른 성능 비교 
 테스트 횟수 : 5000번
@@ -55,12 +56,17 @@ with cache 1 ms elapsed
 
 
 
-## 한번에 해당 타입의 모든 Assigner 가져오기
+## 한번에 해당 타입의 모든 MemberAccessor 가져오기
 
 ```csharp
-var assigners = MemberAssigner.GetAssigners(item.GetType());
+var accessors = MemberAccessor.GetAccessors(item.GetType());
 ```
 또는,
 ```csharp
-var assigners = MemberAssigner.GetAssigners<TYPE>();
+var accessors = MemberAccessor.GetAccessors<TYPE>();
+```
+
+### Expression 을 사용하여 MemberAccessor 가져오기
+```csharp
+var accessor = MemberAccessor.GetAccessors(item=>item.ITEM_ID);
 ```
