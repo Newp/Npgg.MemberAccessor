@@ -11,14 +11,13 @@
 # Reflection 과 성능비교
 
 테스트 횟수 : 100000000번
-set value via System.Reflection  1810 ms elapsed
-set value via Npgg.MemberAccessor 76 ms elapsed
 
+### 편리한 사용, 빠른 동작
 
-# 편리한 사용
-
-###set value via Npgg.MemberAccessor
+### set value via Npgg.MemberAccessor
+처리시간 : 76 ms elapsed
 ```csharp
+
 void SampleAssign(object instance, MemberInfo memberInfo, string value)
 {
     var Accessor = new MemberAccessor(memberInfo);
@@ -26,9 +25,12 @@ void SampleAssign(object instance, MemberInfo memberInfo, string value)
 }
 ```
 
-###set value via Npgg.MemberAccessor
+### set value via System.Reflection
+처리시간 : 1810 ms elapsed
+MemberInfo의 타입이 FieldInfo/PropertyInfo인지에 따라 분기처리해야 함
 ```csharp
-// MemberInfo의 타입이 FieldInfo/PropertyInfo인지에 따라 처리를 달리해야 함
+// 
+// 
 void SampleAssignByReflection(object instance, MemberInfo memberInfo, string value)
 {
     if(memberInfo is FieldInfo fieldInfo) 
