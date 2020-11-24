@@ -3,7 +3,7 @@
 
 # 특징
 1. Reflection 으로 type에 대한 Member(Field/Property)의 값을 get/set 할 수 있습니다.
-2. 내부적으로 Expression Tree를 사용하여 훨씬 빠른 속도를 보장합니다.
+2. 내부적으로 Expression Tree를 사용하여 Reflection SetValue보다 훨씬 빠른 속도를 보장합니다.
 3. 자체적으로 캐싱 기능을 가지고 있기 때문에 반복적인 사용환경에서 더 높은 성능을 보장합니다.
 4. Member 에 대한 FieldMember/PropertyMember를 구분할 필요가 없이 사용할 수 있어 보다 간편합니다.
 
