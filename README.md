@@ -12,21 +12,21 @@
 
 테스트 횟수 : 100000000번
 set value via System.Reflection  1810 ms elapsed
-set value via Npgg.MemberAssigner 76 ms elapsed
+set value via Npgg.MemberAccessor 76 ms elapsed
 
 
 # 편리한 사용
 
-###set value via Npgg.MemberAssigner
+###set value via Npgg.MemberAccessor
 ```csharp
 void SampleAssign(object instance, MemberInfo memberInfo, string value)
 {
-    var assigner = new MemberAssigner(memberInfo);
-    assigner.SetValue(instance, value);
+    var Accessor = new MemberAccessor(memberInfo);
+    Accessor.SetValue(instance, value);
 }
 ```
 
-###set value via Npgg.MemberAssigner
+###set value via Npgg.MemberAccessor
 ```csharp
 // MemberInfo의 타입이 FieldInfo/PropertyInfo인지에 따라 처리를 달리해야 함
 void SampleAssignByReflection(object instance, MemberInfo memberInfo, string value)
