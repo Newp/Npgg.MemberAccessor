@@ -76,6 +76,7 @@ namespace Npgg.Reflection
 
         public readonly bool IsReadonly;
         public readonly string Name;
+        public readonly MemberInfo MemberInfo;
 
         public MemberAccessor(MemberInfo memberInfo)
         {
@@ -120,6 +121,7 @@ namespace Npgg.Reflection
                 );
 
             this.IsReadonly = setter == null;
+            this.MemberInfo = memberInfo;
         }
 
 
