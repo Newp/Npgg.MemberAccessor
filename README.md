@@ -14,7 +14,7 @@
 
 ### 편리한 사용, 빠른 동작
 
-### set value via Npgg.MemberAccessor
+### Npgg.MemberAccessor 로 값을 설정
 처리시간 : 76 ms elapsed
 ```csharp
 
@@ -25,7 +25,7 @@ void SampleAssign(object instance, MemberInfo memberInfo, string value)
 }
 ```
 
-### set value via System.Reflection
+### System.Reflection 로 값을 설정
 처리시간 : 1810 ms elapsed
 MemberInfo의 타입이 FieldInfo/PropertyInfo인지에 따라 분기처리해야 함
 ```csharp
