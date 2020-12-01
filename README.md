@@ -68,7 +68,20 @@ var accessors = MemberAccessor.GetAccessors(item.GetType());
 var accessors = MemberAccessor.GetAccessors<TYPE>();
 ```
 
-### Expression 을 사용하여 MemberAccessor 가져오기
+### Expression 을 사용하여 하나의 맴버에 MemberAccessor 가져오기
 ```csharp
 var accessor = MemberAccessor.GetAccessors(item=>item.ITEM_ID);
+```
+
+
+## Instance Copy
+```csharp
+MemberAccessorPool pool = new MemberAccessorPool();
+Sample source = new Sample("test_test", 239);
+
+var cloned = pool.CreateClone(source); //새로운 인스턴스에 같은값을 가진 인스턴스 생성
+//
+var overwrited = new Sample();
+pool.Overwrite(overwrited); //기존 생성된 인스턴스에 같은값을 덮어씌움
+
 ```
