@@ -7,15 +7,9 @@ using Xunit;
 namespace Npgg.MemberAccessorTests
 {
 
-    public class Sample
-    {
-        public string Name { get; set; }
-        public int Age { get; private set; }
-    }
-
     public class BaseTest : BaseFixture<Sample>
     {
-        Sample item = new Sample()
+        readonly Sample item = new Sample()
         {
             Name = "test name"
         };

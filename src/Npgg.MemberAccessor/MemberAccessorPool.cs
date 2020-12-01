@@ -16,8 +16,8 @@ namespace Npgg.Reflection
 {
     public class MemberAccessorPool
     {
-        Dictionary<Type, Dictionary<string, MemberAccessor>> Cached = new Dictionary<Type, Dictionary<string, MemberAccessor>>();
-        Dictionary<(string,string), MemberAccessor> CachedMemberAccessor = new Dictionary<(string, string), MemberAccessor>();
+        readonly Dictionary<Type, Dictionary<string, MemberAccessor>> Cached = new Dictionary<Type, Dictionary<string, MemberAccessor>>();
+        readonly Dictionary<(string,string), MemberAccessor> CachedMemberAccessor = new Dictionary<(string, string), MemberAccessor>();
 
         public Dictionary<string, MemberAccessor> GetAccessors<T>() => GetAccessors(typeof(T));
         public Dictionary<string, MemberAccessor> GetAccessors(Type type)
@@ -53,6 +53,25 @@ namespace Npgg.Reflection
             }
 
             return GetAccessor(memberExpression.Expression.Type, memberExpression.Member);
+        }
+
+        public void Overwrite<T>(T source, T target)
+        {
+            var accessors = this.GetAccessors<T>();
+
+            foreach (var accessor in accessors.Values)
+            {
+                var value = accessor.GetValue(source);
+                accessor.SetValue(target, value);
+            }
+        }
+
+        public T CreateClone<T>(T source) where T : new()
+        {
+            T result = new T();
+            this.Overwrite(source, result);
+
+            return result;
         }
     }
 

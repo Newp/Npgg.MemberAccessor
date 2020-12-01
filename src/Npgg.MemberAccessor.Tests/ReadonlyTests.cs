@@ -19,7 +19,7 @@ namespace Npgg.MemberAccessorTests
     public class ReadonlyTests : BaseFixture<ReadonlySample>
     {
         const string initstring = "aabbccc";
-        ReadonlySample item = new ReadonlySample(initstring);
+        readonly ReadonlySample item = new ReadonlySample(initstring);
 
 
         [Fact]
