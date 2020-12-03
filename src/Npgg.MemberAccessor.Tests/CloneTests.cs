@@ -24,11 +24,47 @@ namespace Npgg.MemberAccessorTests
         [Fact]
         public void OverwriteTests()
         {
-            var overwrited = new Sample();
+            var overwrited = new Sample()
+            {
+                Description = "NOT DEFAULT VALUE"
+            };
+            pool.Overwrite(source, overwrited, true);
+
+            Assert.Equal(source.Name, overwrited.Name);
+            Assert.Equal(source.Age, overwrited.Age); //private member
+            Assert.Equal(source.Description, overwrited.Description); //overwrited existed Description
+        }
+
+
+        [Fact]
+        public void OverwriteNoDefaultByFlagTests()
+        {
+            string desciption = "abc";
+            var overwrited = new Sample()
+            {
+                Description = desciption
+            };
+            pool.Overwrite(source, overwrited, false);
+
+            Assert.Equal(source.Name, overwrited.Name);
+            Assert.Equal(source.Age, overwrited.Age); //private member
+            Assert.Equal(desciption, overwrited.Description);
+        }
+
+
+        [Fact]
+        public void OverwriteNoDefaultByDefaultOptionTests()
+        {
+            string desciption = "abc";
+            var overwrited = new Sample()
+            {
+                Description = desciption
+            };
             pool.Overwrite(source, overwrited);
 
             Assert.Equal(source.Name, overwrited.Name);
             Assert.Equal(source.Age, overwrited.Age); //private member
+            Assert.Equal(desciption, overwrited.Description);
         }
     }
 }

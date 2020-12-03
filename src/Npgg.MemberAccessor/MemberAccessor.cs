@@ -149,6 +149,11 @@ namespace Npgg.Reflection
                 setter = Expression.Lambda<Action<object, object>>(exAssignment, exObjParam, exValParam).Compile();
             }
         }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()}({this.DeclaringType.Name}.{this.Name})";
+        }
     }
 
 

@@ -55,13 +55,25 @@ namespace Npgg.Reflection
             return GetAccessor(memberExpression.Expression.Type, memberExpression.Member);
         }
 
-        public void Overwrite<T>(T source, T target)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="overwriteDefaultValue">if value of source member is default(T) then don't overwrite that</param>
+        public void Overwrite<T>(T source, T target, bool overwriteDefaultValue = false)
         {
             var accessors = this.GetAccessors<T>();
 
             foreach (var accessor in accessors.Values)
             {
                 var value = accessor.GetValue(source);
+
+                if(overwriteDefaultValue == false && value == default)
+                {
+                    continue;
+                }
                 accessor.SetValue(target, value);
             }
         }
@@ -69,7 +81,7 @@ namespace Npgg.Reflection
         public T CreateClone<T>(T source) where T : new()
         {
             T result = new T();
-            this.Overwrite(source, result);
+            this.Overwrite(source, result, true);
 
             return result;
         }

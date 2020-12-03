@@ -4,7 +4,7 @@
     {
         public string Name { get; set; }
         public int Age { get; private set; }
-
+        public string Description { get; set; }
         public Sample()
         {
 
