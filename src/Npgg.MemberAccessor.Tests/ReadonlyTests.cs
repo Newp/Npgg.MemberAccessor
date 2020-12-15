@@ -10,6 +10,7 @@ namespace Npgg.MemberAccessorTests
     {
         public readonly string Name;
 
+        public string NameProperty => this.Name;
         public ReadonlySample(string name)
         {
             Name = name;
@@ -28,6 +29,16 @@ namespace Npgg.MemberAccessorTests
             var accessor = this.GetAccessor(nameof(Sample.Name));
 
             Assert.True(accessor.CheckType(typeof(string)));
+            Assert.Equal(item.Name, accessor.GetValue<string>(item));
+        }
+
+
+        [Fact]
+        public void SetReadonlyPropertyTest()
+        {
+            var accessor = this.GetAccessor(nameof(ReadonlySample.NameProperty));
+            Assert.Equal(item.Name, accessor.GetValue<string>(item));
+            Assert.False( accessor.SetValue(item, "changed"));
             Assert.Equal(item.Name, accessor.GetValue<string>(item));
         }
 

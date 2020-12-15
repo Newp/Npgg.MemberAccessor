@@ -68,12 +68,16 @@ namespace Npgg.Reflection
 
             foreach (var accessor in accessors.Values)
             {
+                if (accessor.IsReadonly)
+                    continue;
+
                 var value = accessor.GetValue(source);
 
                 if(overwriteDefaultValue == false && value == default)
                 {
                     continue;
                 }
+
                 accessor.SetValue(target, value);
             }
         }

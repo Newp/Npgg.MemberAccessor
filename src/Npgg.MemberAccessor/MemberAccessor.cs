@@ -63,8 +63,12 @@ namespace Npgg.Reflection
         public object GetValue(object targetObject) => getter(targetObject);
 
         public T GetValue<T>(object targetObject) => (T)getter(targetObject);
-        public void SetValue(object targetObject, object memberValue) => setter(targetObject, memberValue);
-
+        public bool SetValue(object targetObject, object memberValue)
+        {
+            if (IsReadonly) return false;
+            setter(targetObject, memberValue);
+            return true;
+        }
 
         public bool CheckType(Type type)
         {
